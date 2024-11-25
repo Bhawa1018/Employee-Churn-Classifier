@@ -1,0 +1,17 @@
+
+# Encoding categorical features
+categorical_features = df.select_dtypes(include=['object']).columns.tolist()
+for feature in categorical_features:
+    le = LabelEncoder()
+    df[feature] = le.fit_transform(df[feature])
+
+# Scaling numerical features
+scaler = StandardScaler()
+df_scaled = scaler.fit_transform(df[numerical_features])
+
+# Add scaled features back to the dataframe
+df_scaled = pd.DataFrame(df_scaled, columns=numerical_features)
+df.update(df_scaled)
+
+# Example of discretization (if needed)
+df['discretized_feature'] = pd.cut(df[numerical_features[0]], bins=5, labels=False)
