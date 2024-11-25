@@ -1,0 +1,22 @@
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve
+
+# Predict and convert probabilities to binary predictions
+y_pred = (model.predict(X_test) > 0.5).astype("int32").flatten()
+
+# Ensure y_test is also binary
+y_test = y_test.astype("int32")
+
+# Evaluation metrics
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Precision:", precision_score(y_test, y_pred))
+print("Recall:", recall_score(y_test, y_pred))
+print("F1-Score:", f1_score(y_test, y_pred))
+
+# Plot ROC Curve
+y_pred_proba = model.predict(X_test).flatten()  # Continuous probabilities for ROC
+fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
+plt.plot(fpr, tpr, label="ROC Curve")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.legend()
+plt.show()
